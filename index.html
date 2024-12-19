@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2D RPG Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      background-color: #d0f0d0; /* 草地のような色 */
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <script>
+    // キャンバスの設定
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const tileSize = 40; // タイル1つのサイズ
+    const mapWidth = 10; // マップの幅（タイル数）
+    const mapHeight = 10; // マップの高さ（タイル数）
+
+    // キャンバスサイズをタイルサイズに合わせて設定
+    canvas.width = mapWidth * tileSize;
+    canvas.height = mapHeight * tileSize;
+
+    // 正方形タイルを描画する関数
+    function drawMap() {
+      for (let y = 0; y < mapHeight; y++) {
+        for (let x = 0; x < mapWidth; x++) {
+          // タイルの描画
+          ctx.fillStyle = (x + y) % 2 === 0 ? '#8b4513' : '#a52a2a'; // タイルの色を交互に設定
+          ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+        }
+      }
+    }
+
+    // ゲームの初期化
+    function init() {
+      drawMap();
+    }
+
+    // ゲーム開始
+    init();
+  </script>
+</body>
+</html>
