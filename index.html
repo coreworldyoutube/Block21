@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +8,14 @@
     body {
       margin: 0;
       overflow: hidden;
+      background-color: #87CEEB; /* 空の色 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
     canvas {
-      display: block;
-      background-color: #d0f0d0; /* 草地のような色 */
+      border: 1px solid #000;
     }
   </style>
 </head>
@@ -23,32 +27,54 @@
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
-    const tileSize = 40; // タイル1つのサイズ
-    const mapWidth = 10; // マップの幅（タイル数）
-    const mapHeight = 10; // マップの高さ（タイル数）
+    // キャンバスのサイズ
+    const canvasWidth = 800;
+    const canvasHeight = 600;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
 
-    // キャンバスサイズをタイルサイズに合わせて設定
-    canvas.width = mapWidth * tileSize;
-    canvas.height = mapHeight * tileSize;
+    // プレイヤー設定
+    const player = {
+      x: 100,
+      y: 100,
+      width: 50,
+      height: 50,
+      color: 'red'
+    };
 
-    // 正方形タイルを描画する関数
-    function drawMap() {
-      for (let y = 0; y < mapHeight; y++) {
-        for (let x = 0; x < mapWidth; x++) {
-          // タイルの描画
-          ctx.fillStyle = (x + y) % 2 === 0 ? '#8b4513' : '#a52a2a'; // タイルの色を交互に設定
-          ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-        }
+    // プレイヤーの描画
+    function drawPlayer() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // 前のフレームをクリア
+      ctx.fillStyle = player.color;
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+    }
+
+    // プレイヤーの移動
+    function movePlayer(e) {
+      const step = 10;  // 移動のステップ
+
+      switch (e.key) {
+        case 'ArrowUp':
+          player.y -= step;
+          break;
+        case 'ArrowDown':
+          player.y += step;
+          break;
+        case 'ArrowLeft':
+          player.x -= step;
+          break;
+        case 'ArrowRight':
+          player.x += step;
+          break;
       }
+      drawPlayer();  // プレイヤーの新しい位置を描画
     }
 
-    // ゲームの初期化
-    function init() {
-      drawMap();
-    }
+    // キーイベントのリスナー
+    window.addEventListener('keydown', movePlayer);
 
-    // ゲーム開始
-    init();
+    // 初期描画
+    drawPlayer();
   </script>
 </body>
 </html>
